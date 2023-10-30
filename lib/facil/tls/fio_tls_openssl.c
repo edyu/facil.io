@@ -6,7 +6,7 @@ Feel free to copy, use and enjoy according to the license provided.
 */
 #include <fio.h>
 
-/**
+/*
  * This implementation of the facil.io SSL/TLS wrapper API wraps the OpenSSL API
  * to provide TLS 1.2 and TLS 1.3 to facil.io applications.
  *
@@ -14,7 +14,7 @@ Feel free to copy, use and enjoy according to the license provided.
  */
 #include "fio_tls.h"
 
-#if HAVE_OPENSSL
+//#if HAVE_OPENSSL
 #include <openssl/bio.h>
 #include <openssl/err.h>
 #include <openssl/ssl.h>
@@ -1009,4 +1009,4 @@ void FIO_TLS_WEAK fio_tls_destroy(fio_tls_s *tls) {
   free(tls);
 }
 
-#endif /* Library compiler flags */
+//#endif /* Library compiler flags */
