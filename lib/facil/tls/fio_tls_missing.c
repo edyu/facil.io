@@ -4,7 +4,6 @@ License: MIT
 
 Feel free to copy, use and enjoy according to the license provided.
 */
-#if HAVE_OPENSSL
 #include <fio.h>
 
 /**
@@ -633,5 +632,4 @@ void FIO_TLS_WEAK fio_tls_destroy(fio_tls_s *tls) {
   free(tls);
 }
 
-#endif /* Library compiler flags */
 #endif /* Library compiler flags */
