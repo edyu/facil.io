@@ -24,7 +24,7 @@ Feel free to copy, use and enjoy according to the license provided.
 #define REQUIRE_LIBRARY()
 #define FIO_TLS_WEAK
 
-/* TODO: delete me! */
+/* TODO: delete me! *
 #undef FIO_TLS_WEAK
 #define FIO_TLS_WEAK __attribute__((weak))
 #if !FIO_IGNORE_TLS_IF_MISSING
