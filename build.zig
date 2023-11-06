@@ -38,6 +38,8 @@ pub fn build(b: *std.Build) !void {
     if (target.getAbi() == .musl)
         try flags.append("-D_LARGEFILE64_SOURCE");
 
+    try flags.append("-DHAVE_OPENSSL -DFIO_TLS_FOUND");
+
     ////// TODO DELETEME     exe.addIncludePath(.{ .path = tracy_path });
     ////// TODO DELETEME     exe.addCSourceFile(.{ .file = .{ .path = client_cpp }, .flags = tracy_c_flags });
 
@@ -69,8 +71,8 @@ pub fn build(b: *std.Build) !void {
             "lib/facil/fiobj/fiobject.c",
             "lib/facil/fiobj/fiobj_mustache.c",
             "lib/facil/cli/fio_cli.c",
-            "lib/facil/tls/fio_tls_missing.c",
             "lib/facil/tls/fio_tls_openssl.c",
+            "lib/facil/tls/fio_tls_missing.c",
         },
         .flags = flags.items,
     });
