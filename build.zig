@@ -114,7 +114,7 @@ pub fn build(b: *std.Build) !void {
     for (headers) |h| lib.installHeader(h, std.fs.path.basename(h));
 
     // Include OpenSSL, as it is forced to be expected in the TLS C files
-    lib.linkSystemLibrary("openssl");
+    lib.linkSystemLibrary("ssl");
 
     // This declares intent for the library to be installed into the standard
     // location when the user invokes the "install" step (the default step when
