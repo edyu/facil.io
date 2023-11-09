@@ -38,6 +38,7 @@ pub fn build(b: *std.Build) !void {
     if (target.getAbi() == .musl)
         try flags.append("-D_LARGEFILE64_SOURCE");
 
+    // Force the acceptance of OpenSSL
     try flags.append("-DHAVE_OPENSSL -DFIO_TLS_FOUND");
 
     ////// TODO DELETEME     exe.addIncludePath(.{ .path = tracy_path });
@@ -112,9 +113,6 @@ pub fn build(b: *std.Build) !void {
         "lib/facil/fio.h",
     };
     for (headers) |h| lib.installHeader(h, std.fs.path.basename(h));
-
-    // Include OpenSSL, as it is forced to be expected in the TLS C files
-    lib.linkSystemLibrary("ssl");
 
     // This declares intent for the library to be installed into the standard
     // location when the user invokes the "install" step (the default step when
