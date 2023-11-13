@@ -113,7 +113,7 @@ pub fn build(b: *std.Build) !void {
     };
     for (headers) |h| lib.installHeader(h, std.fs.path.basename(h));
 
-    // This onboards TLS functionality by including and activating openssl
+    // This onboards TLS functionality by linking openssl
     lib.linkSystemLibrary("ssl");
     lib.linkSystemLibrary("crypto");
 
