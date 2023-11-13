@@ -38,6 +38,8 @@ pub fn build(b: *std.Build) !void {
     if (target.getAbi() == .musl)
         try flags.append("-D_LARGEFILE64_SOURCE");
 
+    try flags.append("-DHAVE_OPENSSL -DFIO_TLS_FOUND");
+
     ////// TODO DELETEME     exe.addIncludePath(.{ .path = tracy_path });
     ////// TODO DELETEME     exe.addCSourceFile(.{ .file = .{ .path = client_cpp }, .flags = tracy_c_flags });
 
@@ -48,6 +50,7 @@ pub fn build(b: *std.Build) !void {
     lib.addIncludePath(.{ .path = "lib/facil/cli" });
     lib.addIncludePath(.{ .path = "lib/facil/http" });
     lib.addIncludePath(.{ .path = "lib/facil/http/parsers" });
+    lib.addIncludePath(.{ .path = "lib/facil/tls" });
 
     // C source files
     lib.addCSourceFiles(.{
@@ -68,6 +71,8 @@ pub fn build(b: *std.Build) !void {
             "lib/facil/fiobj/fiobject.c",
             "lib/facil/fiobj/fiobj_mustache.c",
             "lib/facil/cli/fio_cli.c",
+            "lib/facil/tls/fio_tls_openssl.c",
+            "lib/facil/tls/fio_tls_missing.c",
         },
         .flags = flags.items,
     });
@@ -94,7 +99,6 @@ pub fn build(b: *std.Build) !void {
         "lib/facil/fiobj/fiobj_str.h",
         "lib/facil/fiobj/fiobj.h",
         "lib/facil/fiobj/fio_siphash.h",
-        // "lib/facil/tls/fio_tls.h",
         "lib/facil/cli/fio_cli.h",
         "lib/facil/http/parsers/hpack.h",
         "lib/facil/http/parsers/websocket_parser.h",
@@ -104,9 +108,14 @@ pub fn build(b: *std.Build) !void {
         "lib/facil/http/http.h",
         "lib/facil/http/http1.h",
         "lib/facil/http/websockets.h",
+        "lib/facil/tls/fio_tls.h",
         "lib/facil/fio.h",
     };
     for (headers) |h| lib.installHeader(h, std.fs.path.basename(h));
+
+    // This onboards TLS functionality by linking openssl
+    lib.linkSystemLibrary("ssl");
+    lib.linkSystemLibrary("crypto");
 
     // This declares intent for the library to be installed into the standard
     // location when the user invokes the "install" step (the default step when

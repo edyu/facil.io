@@ -6,7 +6,7 @@ Feel free to copy, use and enjoy according to the license provided.
 */
 #include <fio.h>
 
-/**
+/*
  * This implementation of the facil.io SSL/TLS wrapper API wraps the OpenSSL API
  * to provide TLS 1.2 and TLS 1.3 to facil.io applications.
  *
@@ -14,7 +14,7 @@ Feel free to copy, use and enjoy according to the license provided.
  */
 #include "fio_tls.h"
 
-#if HAVE_OPENSSL
+//#if HAVE_OPENSSL
 #include <openssl/bio.h>
 #include <openssl/err.h>
 #include <openssl/ssl.h>
@@ -157,9 +157,14 @@ FIO_FUNC inline alpn_s *alpn_find(fio_tls_s *tls, char *name, size_t len) {
 
 /** Adds an ALPN data object to the ALPN "list" (set) */
 FIO_FUNC inline void alpn_add(
-    fio_tls_s *tls, const char *protocol_name,
-    void (*on_selected)(intptr_t uuid, void *udata_connection, void *udata_tls),
-    void *udata_tls, void (*on_cleanup)(void *udata_tls)) {
+    fio_tls_s *tls, 
+    const char *protocol_name,
+    void (*on_selected)(
+        intptr_t uuid, 
+        void *udata_connection, 
+        void *udata_tls),
+    void *udata_tls, 
+    void (*on_cleanup)(void *udata_tls)) {
   alpn_s tmp = {
       .name = FIO_STR_INIT_STATIC(protocol_name),
       .on_selected = on_selected,
@@ -889,7 +894,7 @@ void FIO_TLS_WEAK fio_tls_cert_add(fio_tls_s *tls, const char *server_name,
 file_missing:
   FIO_LOG_FATAL("TLS certificate file missing for either %s or %s or both.",
                 key, cert);
-  exit(-1);
+  exit(200);
 }
 
 /**
@@ -952,7 +957,7 @@ void FIO_TLS_WEAK fio_tls_trust(fio_tls_s *tls, const char *public_cert_file) {
   return;
 file_missing:
   FIO_LOG_FATAL("TLS certificate file missing for %s ", public_cert_file);
-  exit(-1);
+  exit(201);
 }
 
 /**
@@ -1009,4 +1014,4 @@ void FIO_TLS_WEAK fio_tls_destroy(fio_tls_s *tls) {
   free(tls);
 }
 
-#endif /* Library compiler flags */
+//#endif /* Library compiler flags */
